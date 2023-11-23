@@ -9,7 +9,7 @@ export const Filter = () => {
   const filter = useSelector(state => state.filterStore);
 
   const onChangeFilter = event => {
-    const { value } = event;
+    const { value } = event.target;
     dispatch(filterContact(value));
   };
 
@@ -20,7 +20,7 @@ export const Filter = () => {
       className={css.input}
       type="text"
       value={filter}
-      onChange={e => onChangeFilter(e.target.value)}
+      onChange={onChangeFilter}
     />
   </label>
 );
