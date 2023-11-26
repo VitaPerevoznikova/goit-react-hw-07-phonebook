@@ -1,91 +1,74 @@
-import React, { useState } from 'react';
-import css from './ContactForm.module.css';
+import { useDispatch } from 'react-redux';
+import { Formik } from 'formik';
+import 'yup-phone';
+import { schema } from 'shared/schemaYup';
+// redux
+import { addContact } from 'redux/contacts/contacts-operations';
 
-import { nanoid } from '@reduxjs/toolkit';
+import { BsFillTelephoneFill, BsPersonFill } from 'react-icons/bs';
+import { IoMdPersonAdd } from 'react-icons/io';
 
-import { plusContact } from 'redux/contacts/phone-book.reducer';
-import { useDispatch, useSelector } from 'react-redux';
+import {
+  Form,
+  FormField,
+  FieldFormik,
+  ErrorMessage,
+  StyledButton,
+  LabelWrapper,
+  LabelSpan,
+} from './ContactForm.styled';
 
+const initialValues = { avatar: '', name: '', phone: '' };
 
 export const ContactForm = () => {
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
-
-  const handleChange = e => {
-    const { name, value } = e.target;
-    switch (name) {
-      case 'name':
-        setName(value);
-        break;
-      case 'number':
-        setNumber(value);
-        break;
-
-      default:
-        break;
-    }
-  };
-
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contactsStore.contacts);
 
-  const handleSubmitAddContact = e => {
-    e.preventDefault();
-    const data = {
-      name,
-      number: Number.parseFloat(number),
-    };
-    const newContact = { ...data, id: nanoid() };
-
-    const isDuplicate = contacts.some(
-      ({ name }) => name.toLowerCase() === newContact.name.toLowerCase()
-    );
-
-    if (isDuplicate) {
-      alert(`'${newContact.name}': is already in contacts!`);
-      return;
-    }
-
-    dispatch(plusContact(newContact));
-    setName('');
-    setNumber('');
+  const onAddContact = data => {
+    dispatch(addContact(data));
   };
   return (
-    
-    <form className={css.form} onSubmit={handleSubmitAddContact}>
-      <label className={css.label}>
-        <p className={css.nameLabel}>Name</p>
-        <input
-          className={css.input}
-          onChange={handleChange}
-          type="text"
-          name="name"
-          value={name}
-          placeholder="Enter your name"
-          title="Name may contain only letters, apostrophe, dash, and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-          pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-          required
-        />
-      </label>
-      <label className={css.label}>
-        <p className={css.nameLabel}>Number</p>
-        <input
-          className={css.input}
-          onChange={handleChange}
-          type="tel"
-          name="number"
-          value={number}
-          placeholder="Enter your number"
-          title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-          pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
-          required
-        />
-      </label>
-      <button className={css.btnFormAdd} type="submit">
-        Add contacts
-      </button>
-    </form>
-    
+    <Formik
+      initialValues={initialValues}
+      onSubmit={(values, { resetForm }) => {
+        onAddContact({ ...values });
+        resetForm();
+      }}
+      validationSchema={schema}
+    >
+      <Form autoComplete="off">
+        <FormField>
+          <LabelWrapper>
+            <BsPersonFill />
+            <LabelSpan>Avatar</LabelSpan>
+          </LabelWrapper>
+          <FieldFormik name="avatar" placeholder="Add link to avatar" />
+          <ErrorMessage name="avatar" component="span" />
+        </FormField>
+        <FormField>
+          <LabelWrapper>
+            <BsPersonFill />
+            <LabelSpan>Name</LabelSpan>
+          </LabelWrapper>
+          <FieldFormik type="text" name="name" placeholder="Name" />
+          <ErrorMessage name="name" component="span" />
+        </FormField>
+        <FormField>
+          <LabelWrapper>
+            <BsFillTelephoneFill />
+            <LabelSpan>Number</LabelSpan>
+          </LabelWrapper>
+          <FieldFormik
+            type="tel"
+            name="phone"
+            placeholder="+38-050-123-45-67"
+          />
+          <ErrorMessage name="phone" component="span" />
+        </FormField>
+        <StyledButton type="submit">
+          <IoMdPersonAdd size="16" />
+          Add contact
+        </StyledButton>
+      </Form>
+    </Formik>
   );
 };
-export default ContactForm;
