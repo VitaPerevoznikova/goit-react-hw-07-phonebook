@@ -47,6 +47,7 @@ export const Btn = styled.button`
   padding-right: ${p => p.theme.space[3]}px;
 
   border: none;
+  border-radius: 25px;
   outline: none;
 
   color: ${props => props.theme.colors.black};

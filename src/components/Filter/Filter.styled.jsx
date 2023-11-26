@@ -4,8 +4,8 @@ export const LabelDescr = styled.label`
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding-top: ${p => p.theme.space[3]}px;
-  padding-bottom: ${p => p.theme.space[3]}px;
+  padding-top: ${p => p.theme.space[4]}px;
+  padding-bottom: ${p => p.theme.space[4]}px;
   padding-left: ${p => p.theme.space[4]}px;
   padding-right: ${p => p.theme.space[4]}px;
 
@@ -34,7 +34,7 @@ export const Input = styled.input`
 
   border: 0;
   outline: 0;
-  border-radius: none;
+  border-radius: 50px;
   color: ${props => props.theme.colors.black};
   background-color: transparent;
   text-shadow: ${props => props.theme.shadows.textShadow};

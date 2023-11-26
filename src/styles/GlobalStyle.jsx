@@ -19,7 +19,10 @@ export const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
       
-    background:	#20B2AA;
+    background-color: #dee2ff;
+    background:  #dee2ff url(https://cdn.pixabay.com/photo/2018/02/24/20/28/telephone-handset-3179133_1280.jpg) 0 0 / cover no-repeat;
+    background-attachment: fixed;
+
 
     letter-spacing: 0.02em;
     font-size: 0.85rem;
