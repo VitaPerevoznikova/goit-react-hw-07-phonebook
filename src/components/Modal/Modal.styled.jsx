@@ -2,14 +2,14 @@ import styled from 'styled-components';
 
 export const CloseBtn = styled.button`
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 3px;
+  right: 3px;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 24px;
   height: 24px;
-  border-radius: none;
+  border-radius: 25px;
   border: ${props => props.theme.borders.none};
   outline: none;
 
@@ -84,6 +84,7 @@ export const Button = styled.button`
 
   border: ${props => props.theme.borders.none};
   outline: none;
+  border-radius: 25px;
 
   box-shadow: ${props => props.theme.shadows.boxShadow};
   transition: all 0.2s ease-in-out;
